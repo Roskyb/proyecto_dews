@@ -20,6 +20,14 @@ class HomeController extends CI_Controller {
 	 */
 
 
+
+	function __construct()
+	{
+		parent::__construct();
+		$this->load->model('LibroModel');
+	}
+
+
 	public function index()
 	{
 		$this->load->model('LibroModel');
@@ -31,16 +39,25 @@ class HomeController extends CI_Controller {
 	}
 
 	public function genero($genero){
-		$this->load->model('LibroModel');
+		if($this->input->post()) {
+			$this->procesarPrestamos();
+			$data['poseado'] = $this->procesarPrestamos();
+		}
+		
 		$data['generos'] = $this->LibroModel->getGeneros();
 		$data['libros'] = $this->LibroModel->getLibros($genero);
 		$this->load->view('layout/header', $data);
 		$this->load->view('ViewLibros', $data);
+
 		$this->load->view('layout/footer');	
 	}
 
-	public function prestarLibros()
+	public function procesarPrestamos()
 	{
-		
+	
+		return $this->LibroModel->prestarLibro('11');
+
 	}
+
+
 }

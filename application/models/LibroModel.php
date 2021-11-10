@@ -18,10 +18,22 @@ class LibroModel extends CI_Model {
 		if($genero != "") $queryString .= " WHERE a.genero=\"$genero\"";
 		
 		$query = $this->db->query($queryString);
-
+		
 		return $query->result();
 	}
 	
+
+	public function prestarLibro($idlibro)
+	{
+		$queryString = "SELECT idprestamo, count(*) as cont
+						FROM prestamos
+						WHERE idlibro=$idlibro";
+		$query = $this->db->query($queryString)->result();
+		if($query->cont < 4 && $query[0]->idprestamo){
+			
+			$insertString = "INSERT INTO prestamos VALUES(fecha, idlibro)";
+		}
+	}
 
 
 }

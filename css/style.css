@@ -56,6 +56,16 @@ small {
 	background-color: #eee
 }
 
+input[type=submit] {
+	background-color: rgb(58, 58, 58);
+	text-transform: uppercase;
+	font-size: 1rem;
+	color: white;
+	padding: .5rem;
+	border: 1px solid gray;
+	border-radius: 2rem;
+}
+
 a:link {
 	text-decoration: none;
 	color: #000;
