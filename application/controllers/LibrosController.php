@@ -17,7 +17,7 @@ class Clibros extends CI_Controller
             $this->mautores->librosautor($idautor);
         //$arraylibros: array de arrays (cada subarray(libro)
         //tiene idlibro, titulo, paginas, genero
-
+        
         $data['mensaje'] = "LIBROS DEL AUTOR $nombreautor";
         $this->load->view('v_titulobiblio', $data);
         $this->load->view('v_librosautor', $data);

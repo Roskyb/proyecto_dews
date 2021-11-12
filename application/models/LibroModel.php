@@ -29,10 +29,14 @@ class LibroModel extends CI_Model {
 						FROM prestamos
 						WHERE idlibro=$idlibro";
 		$query = $this->db->query($queryString)->result();
-		if($query->cont < 4 && $query[0]->idprestamo){
+		if($query[0]->cont < 4 && $query[0]->idprestamo){
 			
-			$insertString = "INSERT INTO prestamos VALUES(fecha, idlibro)";
-		}
+			$fechaHoy = date("Y-m-d");
+			$insertString = "INSERT INTO prestamos (fecha, idlibro) VALUES(\"$fechaHoy\", $idlibro)";
+
+			$queryInsert = $this->db->query($insertString);
+			return $queryInsert ? $query[0]->idprestamo : false;
+		}else return false;
 	}
 
 

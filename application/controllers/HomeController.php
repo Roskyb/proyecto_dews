@@ -39,7 +39,7 @@ class HomeController extends CI_Controller {
 	}
 
 	public function genero($genero){
-		if($this->input->post()) {
+		if($this->input->post() && count($this->input->post()['idlibro']) > 0) {
 			$this->procesarPrestamos();
 			$data['poseado'] = $this->procesarPrestamos();
 		}
@@ -48,15 +48,21 @@ class HomeController extends CI_Controller {
 		$data['libros'] = $this->LibroModel->getLibros($genero);
 		$this->load->view('layout/header', $data);
 		$this->load->view('ViewLibros', $data);
-
 		$this->load->view('layout/footer');	
 	}
 
 	public function procesarPrestamos()
 	{
 	
-		return $this->LibroModel->prestarLibro('11');
+		$idLibros = $this->input->post()['idlibro'];
 
+		foreach ($idLibros as $value) {
+			if($this->LibroModel->prestarLibro($value)){
+				$datos['prestados'][] = $value;
+			}else{
+				$datos['noprestados'][] = $value;
+			}
+		}
 	}
 
 
