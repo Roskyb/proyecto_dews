@@ -28,25 +28,6 @@
         </tbody>
     </table>
     <?= form_close() ?>
-
-    <?php if (isset($prestado)) : ?>
-        <h2>Prestados</h2>
-        <ul>
-            <?php foreach ($noprestado as $value) : ?>
-                <li><?= $value ?></li>
-            <?php endforeach; ?>
-        </ul>
-    <?php endif; ?>
-
-    <?php if (isset($noprestado)) : ?>
-        <h2>No prestados</h2>
-        <ul>
-            <?php foreach ($noprestado as $value) : ?>
-                <li><?= $value ?></li>
-            <?php endforeach; ?>
-        </ul>
-    <?php endif; ?>
-
 <?php else : ?>
     <h1>No hay libros del genero que buscas...</h1>
 <?php endif; ?>

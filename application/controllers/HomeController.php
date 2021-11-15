@@ -39,15 +39,16 @@ class HomeController extends CI_Controller {
 	}
 
 	public function genero($genero){
-		if($this->input->post() && count($this->input->post()['idlibro']) > 0) {
-			$this->procesarPrestamos();
-			$data['poseado'] = $this->procesarPrestamos();
-		}
 		
 		$data['generos'] = $this->LibroModel->getGeneros();
 		$data['libros'] = $this->LibroModel->getLibros($genero);
+		if($this->input->post() && count($this->input->post()['idlibro']) > 0) {
+			$datos = $this->procesarPrestamos();
+			$datos['libros'] = $data['libros'];
+		}
 		$this->load->view('layout/header', $data);
 		$this->load->view('ViewLibros', $data);
+		if($this->input->post()) $this->load->view('viewPrestamos', $datos);
 		$this->load->view('layout/footer');	
 	}
 
@@ -55,7 +56,6 @@ class HomeController extends CI_Controller {
 	{
 	
 		$idLibros = $this->input->post()['idlibro'];
-
 		foreach ($idLibros as $value) {
 			if($this->LibroModel->prestarLibro($value)){
 				$datos['prestados'][] = $value;
@@ -63,6 +63,8 @@ class HomeController extends CI_Controller {
 				$datos['noprestados'][] = $value;
 			}
 		}
+
+		return $datos;
 	}
 
 

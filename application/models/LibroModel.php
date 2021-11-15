@@ -1,6 +1,7 @@
-<?php 
+<?php
 
-class LibroModel extends CI_Model {
+class LibroModel extends CI_Model
+{
 
 
 	public function getGeneros()
@@ -15,13 +16,13 @@ class LibroModel extends CI_Model {
 		$queryString = "SELECT idlibro, a.titulo, b.nombre as autor
 						FROM libros a
 						JOIN autores b on a.idautor=b.idautor";
-		if($genero != "") $queryString .= " WHERE a.genero=\"$genero\"";
-		
+		if ($genero != "") $queryString .= " WHERE a.genero=\"$genero\"";
+
 		$query = $this->db->query($queryString);
-		
+
 		return $query->result();
 	}
-	
+
 
 	public function prestarLibro($idlibro)
 	{
@@ -29,15 +30,11 @@ class LibroModel extends CI_Model {
 						FROM prestamos
 						WHERE idlibro=$idlibro";
 		$query = $this->db->query($queryString)->result();
-		if($query[0]->cont < 4 && $query[0]->idprestamo){
-			
+		if ($query[0]->cont < 4 && $query[0]->idprestamo) {
 			$fechaHoy = date("Y-m-d");
 			$insertString = "INSERT INTO prestamos (fecha, idlibro) VALUES(\"$fechaHoy\", $idlibro)";
-
 			$queryInsert = $this->db->query($insertString);
 			return $queryInsert ? $query[0]->idprestamo : false;
-		}else return false;
+		} else return false;
 	}
-
-
 }
