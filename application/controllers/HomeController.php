@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class HomeController extends CI_Controller {
+class HomeController extends CI_Controller
+{
 
 	/**
 	 * Index Page for this controller.
@@ -33,39 +34,45 @@ class HomeController extends CI_Controller {
 		$this->load->model('LibroModel');
 		$data['generos'] = $this->LibroModel->getGeneros();
 		$data['libros'] = $this->LibroModel->getLibros();
+
+		if ($this->input->post() && count($this->input->post()['idlibro']) > 0) {
+			$datos = $this->procesarPrestamos();
+			$datos['libros'] = $data['libros'];
+		}
+
 		$this->load->view('layout/header', $data);
 		$this->load->view('ViewLibros', $data);
+		if ($this->input->post()) $this->load->view('viewPrestamos', $datos);
 		$this->load->view('layout/footer');
 	}
 
-	public function genero($genero){
-		
+	public function genero($genero)
+	{
+
 		$data['generos'] = $this->LibroModel->getGeneros();
 		$data['libros'] = $this->LibroModel->getLibros($genero);
-		if($this->input->post() && count($this->input->post()['idlibro']) > 0) {
+		if ($this->input->post() && count($this->input->post()['idlibro']) > 0) {
 			$datos = $this->procesarPrestamos();
 			$datos['libros'] = $data['libros'];
 		}
 		$this->load->view('layout/header', $data);
 		$this->load->view('ViewLibros', $data);
-		if($this->input->post()) $this->load->view('viewPrestamos', $datos);
-		$this->load->view('layout/footer');	
+		if ($this->input->post()) $this->load->view('viewPrestamos', $datos);
+		$this->load->view('layout/footer');
 	}
 
 	public function procesarPrestamos()
 	{
-	
+
 		$idLibros = $this->input->post()['idlibro'];
 		foreach ($idLibros as $value) {
-			if($this->LibroModel->prestarLibro($value)){
+			if ($this->LibroModel->prestarLibro($value)) {
 				$datos['prestados'][] = $value;
-			}else{
+			} else {
 				$datos['noprestados'][] = $value;
 			}
 		}
 
 		return $datos;
 	}
-
-
 }
