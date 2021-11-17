@@ -158,3 +158,10 @@ td {
 	border: thin solid #cccccc;
 	padding: 10px;
 }
+
+
+.calendar table td a {
+	color: red;
+	font-weight: 500;
+	text-decoration: underline;
+}

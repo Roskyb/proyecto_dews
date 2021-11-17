@@ -14,6 +14,7 @@
 	</div>
 	<div id="menu">
 		<a href="<?=site_url()?>">Home</a>
+		<a href="<?=site_url() . 'calendario'?>">Calendario</a>
 	</div>
 	<div id="container">
 		<div id="bar">

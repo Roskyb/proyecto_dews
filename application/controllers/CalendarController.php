@@ -33,9 +33,21 @@ class CalendarController extends CI_Controller
 	{
 		$mes = date('m');
 		$year = date('Y');
+		$data = $this->LibroModel->getPrestamos();
 
-		
+		return $this->calendar->generate($year, $mes, $data);
+	}
 
-		return $this->calendar->generate($year, $mes);
+	public function verPrestamosFecha($year, $month, $day)
+	{
+		$fecha = "$year-$month-$day";
+		$data['fecha'] = $fecha;
+		$data['prestados'] = $this->LibroModel->getPrestamosDia($fecha);
+		$data['generos'] = $this->LibroModel->getGeneros();
+		$data['calendar'] = $this->crearCalendario();
+
+		$this->load->view('layout/header', $data);
+		$this->load->view('ViewCalendar', $data);
+		$this->load->view('layout/footer');
 	}
 }

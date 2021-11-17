@@ -37,4 +37,33 @@ class LibroModel extends CI_Model
 			return $queryInsert ? $query[0]->idprestamo : false;
 		} else return false;
 	}
+
+	public function getPrestamos($mes="", $year="")
+	{
+		$queryString = "SELECT DAY(fecha) as dia, MONTH(fecha) as mes, YEAR(fecha) as ano
+						FROM prestamos
+						WHERE MONTH(fecha) = MONTH(CURRENT_DATE())
+						AND YEAR(fecha) = YEAR(CURRENT_DATE())";
+		$query = $this->db->query($queryString);
+		
+		if($query->num_rows() == 0) return [];
+		$arrayDias = [];
+		$query = $query->result();
+		foreach($query as $value){
+			$arrayDias[$value->dia] = base_url()."calendario/$value->ano/$value->mes/$value->dia";
+		}
+
+		return $arrayDias;
+		
+	}
+
+	public function getPrestamosDia($fecha)
+	{
+		$queryString = "SELECT DISTINCT titulo 
+		FROM prestamos a
+        JOIN libros b on a.idlibro = b.idlibro
+		WHERE fecha=\"$fecha\"";
+		$query = $this->db->query($queryString);
+		return $query->result();
+	}
 }
